@@ -18,4 +18,16 @@ console.log(compiledFunction({
   contact_phone: response['contact_phone'],
 }));
 
+//When not outputting to console, will output to and save to send. Right now do both
+//So I can see here and on postman
 
+const send_mail = compiledFunction({
+  acres: response['acres'],
+  services: response['services'],
+  contact_email: response['contact_email'],
+  contact_phone: response['contact_phone'],
+});
+
+module.exports = {
+  send_mail,
+};

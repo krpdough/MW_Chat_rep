@@ -1,7 +1,8 @@
 const { send } = require('micro');
 const { router, get } = require('microrouter');
-const { Rooms } = require('./models');
+//const { Rooms } = require('./models');
+const { Estimate_Requests } = require('./models');
 
 module.exports = router(
-  get('/rooms', Rooms.list),
+  get('/estimate_request', Estimate_Requests.send_mail),
 );
