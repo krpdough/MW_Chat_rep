@@ -1,8 +1,8 @@
 //Send email function
 //JSON in a POST body
+const pug = require('pug');
 
-getDataForEmail(x)
-{
+function getDataForEmail(x) {
   //Make a manual thing for now
 
   var response_array = new Array();
@@ -13,10 +13,8 @@ getDataForEmail(x)
   response_array['contactPhone'] = '123-456-7899';
 
   return response_array;
-}
+};
 
-
-const pug = require('pug');
 
 // Compile the template file 
 const template = pug.compileFile('./templates/basicEstimate.pug');
