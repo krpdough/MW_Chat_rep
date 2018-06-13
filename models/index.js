@@ -1,5 +1,5 @@
-const Estimate_Requests = require('./estimate_request');
+const EstimateRequests = require('./estimateRequest');
 
 module.exports = {
-  Estimate_Requests,
+  EstimateRequests,
 };
