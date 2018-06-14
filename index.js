@@ -4,5 +4,5 @@ const { router, post } = require('microrouter');
 const { EstimateRequests } = require('./models');
 
 module.exports = router(
-  post('/estimateRequest', EstimateRequests.template),
+  post('/estimateRequest', EstimateRequests.sendEstimateEmail),
 );
