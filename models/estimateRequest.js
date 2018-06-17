@@ -23,7 +23,7 @@ const sendEstimateEmail = (req, res) => {
     from: 'grassman.mailservice@gmail.com',
     to: 'krpdough@gmail.com',
     subject: 'A New Request has been Created',
-    text: template({
+    html: template({
       acres: response['acres'],
       services: response['services'],
       contactEmail: response['contactEmail'],
