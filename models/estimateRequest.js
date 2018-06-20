@@ -2,7 +2,7 @@
 // JSON in a POST body
 const pug = require('pug');
 const nodemailer = require('nodemailer');
-const { configFile } = require('../hidden');
+const configFile = require('../hidden');
 
 // Below was taken from https://www.w3schools.com/nodejs/nodejs_email.asp
 // User and pass was suggested from stack overflow, not sure if was just
@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'grassman.mailservice@gmail.com',
-    pass: configFile.pass,
+    pass: configFile.Configs.pass,
   },
   tls: {
     rejectUnauthorized: false,
@@ -24,17 +24,17 @@ const transporter = nodemailer.createTransport({
 // Compile the template file
 const template = pug.compileFile('./templates/basicEstimate.pug');
 
-const getDataForEmail = () => ({
-  acres: '55',
-  services: 'GoodOleCleanin',
-  contactEmail: 'kevinNumbaWan@gmail.com',
-  contactPhone: '123-456-7899',
-});
+// const getDataForEmail = () => ({
+//   acres: '55',
+//   services: 'GoodOleCleanin',
+//   contactEmail: 'kevinNumbaWan@gmail.com',
+//   contactPhone: '123-456-7899',
+// });
 
-const sendEstimateEmail = (x) => {
-  const response = getDataForEmail();
-  console.log(response);
-  console.log(x);
+const sendEstimateEmail = (res) => {
+  // For manual testing, uncomment below and the function
+  // const response = getDataForEmail();
+  // console.log(res.query);
 
   // Create mail by feeding in options
   const mailOptions = {
@@ -42,10 +42,10 @@ const sendEstimateEmail = (x) => {
     to: 'krpdough@gmail.com',
     subject: 'A New Request has been Created',
     html: template({
-      acres: response.acres,
-      services: response.services,
-      contactEmail: response.contactEmail,
-      contactPhone: response.contactPhone,
+      acres: res.query.acres,
+      services: res.query.services,
+      contactEmail: res.query.contactEmail,
+      contactPhone: res.query.contactPhone,
     }),
   };
 
