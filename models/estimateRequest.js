@@ -2,6 +2,7 @@
 // JSON in a POST body
 const pug = require('pug');
 const nodemailer = require('nodemailer');
+const { configFile } = require('../hidden');
 
 // Below was taken from https://www.w3schools.com/nodejs/nodejs_email.asp
 // User and pass was suggested from stack overflow, not sure if was just
@@ -13,7 +14,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'grassman.mailservice@gmail.com',
-    pass: 'W3partyhard!',
+    pass: configFile.pass,
   },
   tls: {
     rejectUnauthorized: false,
@@ -30,9 +31,10 @@ const getDataForEmail = () => ({
   contactPhone: '123-456-7899',
 });
 
-const sendEstimateEmail = () => {
+const sendEstimateEmail = (x) => {
   const response = getDataForEmail();
   console.log(response);
+  console.log(x);
 
   // Create mail by feeding in options
   const mailOptions = {
