@@ -21,8 +21,38 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Compile the template file
-const template = pug.compileFile('./templates/basicEstimate.pug');
+// Compile the template files. Internet says to do this once early on for all of them
+const estimateTemplate = pug.compileFile('./templates/basicEstimate.pug');
+const requestTemplate = pug.compileFile('./templates/basicRequest.pug');
+const ghostTemplate = pug.compileFile('./templates/noData.pug');
+
+// Get the template based on what parameters were passed
+const chooseTemplate = (query) => {
+  if ('services' in query && ('contactEmail' in query || 'contactPhone' in query)) {
+    return estimateTemplate({
+      acres: query.acres,
+      services: query.services,
+      contactEmail: query.contactEmail,
+      contactPhone: query.contactPhone,
+    });
+  } else if ('message' in query && ('contactEmail' in query || 'contactPhone' in query)) {
+    return requestTemplate({
+      message: query.message,
+      name: query.name,
+      contactEmail: query.contactEmail,
+      contactPhone: query.contactPhone,
+    });
+  }
+
+  return ghostTemplate({
+    message: query.message,
+    name: query.name,
+    acres: query.acres,
+    services: query.services,
+    contactEmail: query.contactEmail,
+    contactPhone: query.contactPhone,
+  });
+};
 
 // const getDataForEmail = () => ({
 //   acres: '55',
@@ -41,12 +71,7 @@ const sendEstimateEmail = (res) => {
     from: 'grassman.mailservice@gmail.com',
     to: 'krpdough@gmail.com',
     subject: 'A New Request has been Created',
-    html: template({
-      acres: res.query.acres,
-      services: res.query.services,
-      contactEmail: res.query.contactEmail,
-      contactPhone: res.query.contactPhone,
-    }),
+    html: chooseTemplate(res.query),
   };
 
   // Send the mail
