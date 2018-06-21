@@ -66,6 +66,11 @@ const sendEstimateEmail = (res) => {
   // const response = getDataForEmail();
   // console.log(res.query);
 
+  // Check to see if the POST data is empty, if so, getouttahere
+  if (!res.query.length) {
+    return 'Empty bb';
+  }
+
   // Create mail by feeding in options
   const mailOptions = {
     from: 'grassman.mailservice@gmail.com',
