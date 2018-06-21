@@ -67,7 +67,7 @@ const sendEstimateEmail = (res) => {
   // console.log(res.query);
 
   // Check to see if the POST data is empty, if so, getouttahere
-  if (!res.query.length) {
+  if (Object.keys(res.query).length === 0) {
     return 'Empty bb';
   }
 
