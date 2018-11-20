@@ -11,6 +11,7 @@
   "author": "Mike Weeden",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "eslint": "^4.19.1",
     "micro": "^9.3.0",
     "microrouter": "^3.1.3",

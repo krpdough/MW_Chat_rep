@@ -1,5 +1,6 @@
 // Send email function
 // JSON in a POST body
+const json = require('micro');
 const pug = require('pug');
 const nodemailer = require('nodemailer');
 const configFile = require('../hidden');
@@ -61,16 +62,14 @@ const chooseTemplate = (query) => {
 //   contactPhone: '123-456-7899',
 // });
 
-const sendEstimateEmail = (res) => {
+const sendEstimateEmail = async (res) => {
   // For manual testing, uncomment below and the function
   // const response = getDataForEmail();
-  // console.log(res.query);
 
   // Check to see if the POST data is empty, if so, getouttahere
   if (Object.keys(res.query).length === 0) {
     return 'Empty bb';
   }
-
   // Create mail by feeding in options
   const mailOptions = {
     from: 'grassman.mailservice@gmail.com',
