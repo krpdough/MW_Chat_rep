@@ -1,6 +1,6 @@
 // Send email function
 // JSON in a POST body
-const json = require('micro');
+const { json } = require('micro');
 const pug = require('pug');
 const nodemailer = require('nodemailer');
 const configFile = require('../hidden');
@@ -31,10 +31,17 @@ const ghostTemplate = pug.compileFile('./templates/noData.pug');
 const chooseTemplate = (query) => {
   if ('services' in query && ('contactEmail' in query || 'contactPhone' in query)) {
     return estimateTemplate({
-      acres: query.acres,
+      sizeOfLand: query.sizeOfLand,
+      unit: query.unit,
       services: query.services,
       contactEmail: query.contactEmail,
       contactPhone: query.contactPhone,
+      address: query.address,
+      name: query.name,
+      city: query.city,
+      state: query.state,
+      zip: query.zip,
+      availability: query.availability,
     });
   } else if ('message' in query && ('contactEmail' in query || 'contactPhone' in query)) {
     return requestTemplate({
@@ -42,13 +49,15 @@ const chooseTemplate = (query) => {
       name: query.name,
       contactEmail: query.contactEmail,
       contactPhone: query.contactPhone,
+      city: query.city,
     });
   }
 
   return ghostTemplate({
     message: query.message,
     name: query.name,
-    acres: query.acres,
+    sizeOfLand: query.sizeOfLand,
+    unit: query.unit,
     services: query.services,
     contactEmail: query.contactEmail,
     contactPhone: query.contactPhone,
@@ -65,9 +74,11 @@ const chooseTemplate = (query) => {
 const sendEstimateEmail = async (res) => {
   // For manual testing, uncomment below and the function
   // const response = getDataForEmail();
+  const data = await json(res);
+  console.log(data);
 
   // Check to see if the POST data is empty, if so, getouttahere
-  if (Object.keys(res.query).length === 0) {
+  if (data.name === '') {
     return 'Empty bb';
   }
   // Create mail by feeding in options
@@ -75,7 +86,7 @@ const sendEstimateEmail = async (res) => {
     from: 'grassman.mailservice@gmail.com',
     to: 'krpdough@gmail.com',
     subject: 'A New Request has been Created',
-    html: chooseTemplate(res.query),
+    html: chooseTemplate(data),
   };
 
   // Send the mail
